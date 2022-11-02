@@ -10,6 +10,8 @@ iconInmage = PhotoImage(file="HarryICON1.png")
 rootWindow.iconphoto(False, iconInmage)
 
 #functions
+def calculateSubnet():
+    print("Pushed")
 
 #object creation
 inputFrame = LabelFrame(rootWindow, text= "IP Address", labelanchor=N,padx=5,pady=5)
@@ -21,7 +23,7 @@ dotLabelTwo = Label(inputFrame,text=".")
 slashLabel = Label(inputFrame,text="/")
 cidrInput = Entry(inputFrame, width=3)
 
-subnetButton = Button(rootWindow,text="SUBNET")
+subnetButton = Button(rootWindow,text="SUBNET", command= calculateSubnet)
 
 networkFrame = LabelFrame(rootWindow, text= "Network ID", labelanchor=N)
 networkLabel = Label(networkFrame,text="")
