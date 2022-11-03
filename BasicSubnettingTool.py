@@ -12,6 +12,12 @@ rootWindow.iconphoto(False, iconInmage)
 
 #functions
 def calculateSubnet():
+
+    netMaskBinaryString = ""
+    networkIDBinary = ""
+    networkIDDotNote = ""
+
+    #grabbint user input and converting it to binary strings
     octOneBinaryString = generateOctet(ipInputOne.get())
     octTwoBinaryString = generateOctet(ipInputTwo.get())
     octThreeBinaryString = generateOctet(ipInputThree.get())
@@ -19,21 +25,19 @@ def calculateSubnet():
 
     addressBinaryString = octOneBinaryString + octTwoBinaryString + octThreeBinaryString + octFourBinaryString
 
-    netMaskBinaryString = ""
-    networkIDBinary = ""
-
     for _ in range(int(cidrInput.get())):
         netMaskBinaryString = netMaskBinaryString + "1"
     
     netMaskBinaryString = fillZeros(netMaskBinaryString)
     
+    #creating the network ID first as a binary string then as a dot notation string
     networkIDBinary = fillZeros(addressBinaryString[0:int(cidrInput.get())])
+    networkIDDotNote = binaryToDotNote(networkIDBinary)
     
     print("A: " + addressBinaryString)
     print("M: " + netMaskBinaryString)
     print("N: "+ networkIDBinary)
-    
-        
+    print("ND: "+ networkIDDotNote)
 
 def generateOctet(segment):
     octet = str(bin(int(segment))[2:])
@@ -49,6 +53,10 @@ def fillZeros(segment):
         addressString = addressString + "0"
     return addressString
 
+def binaryToDotNote(segment):
+    address = str(int(segment[0:8],2)) + "." + str(int(segment[8:16],2)) + "." + str(int(segment[16:24],2)) + "." + str(int(segment[24:32],2))
+    return address
+    
 
 #object creation
 inputFrame = LabelFrame(rootWindow, text= "IP Address", labelanchor=N,padx=5,pady=5)
