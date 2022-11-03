@@ -9,17 +9,35 @@ rootWindow.title("Basic Subnetting Tool")
 iconInmage = PhotoImage(file="HarryICON1.png")
 rootWindow.iconphoto(False, iconInmage)
 
+
 #functions
 def calculateSubnet():
-    print("Pushed")
+    octOneBinaryString = generateOctet(ipInputOne.get())
+    octTwoBinaryString = generateOctet(ipInputTwo.get())
+    octThreeBinaryString = generateOctet(ipInputThree.get())
+    octFourBinaryString = generateOctet(ipInputFour.get())
+
+    addressBinaryString = octOneBinaryString + octTwoBinaryString + octThreeBinaryString + octFourBinaryString
+    
+    print(f"{octOneBinaryString}.{octTwoBinaryString}.{octThreeBinaryString}.{octFourBinaryString}")
+
+    print(addressBinaryString)
+
+def generateOctet(segment):
+    octet = str(bin(int(segment))[2:])
+    while len(octet) < 8:
+        octet = "0"+ octet
+    return octet
 
 #object creation
 inputFrame = LabelFrame(rootWindow, text= "IP Address", labelanchor=N,padx=5,pady=5)
 ipInputOne = Entry(inputFrame,width=5)
 ipInputTwo = Entry(inputFrame, width=5)
 ipInputThree = Entry(inputFrame,width=5)
+ipInputFour = Entry(inputFrame,width=5)
 dotLabelOne = Label(inputFrame,text=".")
 dotLabelTwo = Label(inputFrame,text=".")
+dotLabelThree = Label(inputFrame,text=".")
 slashLabel = Label(inputFrame,text="/")
 cidrInput = Entry(inputFrame, width=3)
 
@@ -39,13 +57,16 @@ broadcastLabel = Label(broadcastFrame, text="")
 
 #object display
 inputFrame.grid(row=0, column=0, padx=5, pady=5)
+
 ipInputOne.grid(row=0,column=0)
 dotLabelOne.grid(row=0,column=1)
 ipInputTwo.grid(row=0,column=2)
 dotLabelTwo.grid(row=0,column=3)
 ipInputThree.grid(row=0,column=4)
-slashLabel.grid(row=0,column=5)
-cidrInput.grid(row=0,column=6)
+dotLabelThree.grid(row=0,column=5)
+ipInputFour.grid(row=0, column=6)
+slashLabel.grid(row=0,column=7)
+cidrInput.grid(row=0,column=8)
 
 subnetButton.grid(row=0, column=1, padx=5)
 
