@@ -18,10 +18,22 @@ def calculateSubnet():
     octFourBinaryString = generateOctet(ipInputFour.get())
 
     addressBinaryString = octOneBinaryString + octTwoBinaryString + octThreeBinaryString + octFourBinaryString
+
+    cidrBinaryString = ""
     
     print(f"{octOneBinaryString}.{octTwoBinaryString}.{octThreeBinaryString}.{octFourBinaryString}")
 
     print(addressBinaryString)
+
+    for _ in range(int(cidrInput.get())):
+        cidrBinaryString = "1"+cidrBinaryString
+    
+    while len(cidrBinaryString) < 32:
+        cidrBinaryString = cidrBinaryString + "0"
+    
+    print(cidrBinaryString)
+    print(len(cidrBinaryString))
+        
 
 def generateOctet(segment):
     octet = str(bin(int(segment))[2:])
