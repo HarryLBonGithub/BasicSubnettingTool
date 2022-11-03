@@ -19,20 +19,20 @@ def calculateSubnet():
 
     addressBinaryString = octOneBinaryString + octTwoBinaryString + octThreeBinaryString + octFourBinaryString
 
-    cidrBinaryString = ""
-    
-    print(f"{octOneBinaryString}.{octTwoBinaryString}.{octThreeBinaryString}.{octFourBinaryString}")
-
-    print(addressBinaryString)
+    netMaskBinaryString = ""
+    networkIDBinary = ""
 
     for _ in range(int(cidrInput.get())):
-        cidrBinaryString = "1"+cidrBinaryString
+        netMaskBinaryString = netMaskBinaryString + "1"
     
-    while len(cidrBinaryString) < 32:
-        cidrBinaryString = cidrBinaryString + "0"
+    netMaskBinaryString = fillZeros(netMaskBinaryString)
     
-    print(cidrBinaryString)
-    print(len(cidrBinaryString))
+    networkIDBinary = fillZeros(addressBinaryString[0:int(cidrInput.get())])
+    
+    print("A: " + addressBinaryString)
+    print("M: " + netMaskBinaryString)
+    print("N: "+ networkIDBinary)
+    
         
 
 def generateOctet(segment):
@@ -40,6 +40,15 @@ def generateOctet(segment):
     while len(octet) < 8:
         octet = "0"+ octet
     return octet
+
+def fillZeros(segment):
+
+    addressString = segment
+
+    while len(addressString) <32:
+        addressString = addressString + "0"
+    return addressString
+
 
 #object creation
 inputFrame = LabelFrame(rootWindow, text= "IP Address", labelanchor=N,padx=5,pady=5)
