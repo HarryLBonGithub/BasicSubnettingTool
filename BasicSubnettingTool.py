@@ -13,17 +13,7 @@ rootWindow.iconphoto(False, iconInmage)
 #functions
 def calculateSubnet():
 
-    netMaskBinaryString = ""
-    networkIDBinary = ""
-    networkIDDotNote = ""
-    broadcastBinaryString = ""
-    broadcastDotNote = ""
-    firstHostBinary = ""
-    firstHostDotNote = ""
-    lastHostBinary = ""
-    lastHostDotNote = ""
-
-    #grabbint user input and converting it to binary strings
+    #grabbing user input and converting it to binary strings
     octOneBinaryString = generateOctet(ipInputOne.get())
     octTwoBinaryString = generateOctet(ipInputTwo.get())
     octThreeBinaryString = generateOctet(ipInputThree.get())
@@ -31,6 +21,8 @@ def calculateSubnet():
 
     addressBinaryString = octOneBinaryString + octTwoBinaryString + octThreeBinaryString + octFourBinaryString
 
+    #creating the network mask as a binary string. this is only used in testing
+    netMaskBinaryString = ""
     for _ in range(int(cidrInput.get())):
         netMaskBinaryString = netMaskBinaryString + "1"
     
@@ -40,29 +32,25 @@ def calculateSubnet():
     networkIDBinary = fillZeros(addressBinaryString[0:int(cidrInput.get())])
     networkIDDotNote = binaryToDotNote(networkIDBinary)
 
+    networkLabel.config(text = networkIDDotNote)
+
     #creating the broadcast ID first as a binary string then as a dot notation string
     broadcastBinaryString = fillOnes(addressBinaryString[0:int(cidrInput.get())])
     broadcastDotNote = binaryToDotNote(broadcastBinaryString)
 
+    broadcastLabel.config(text = broadcastDotNote)
+
     #creating the first host in binary then as dot notation
-    firstHostBinary = str(bin(int(networkIDBinary, 2) + 1))[2:]
+    firstHostBinary = fillLeadingZeros(str(bin(int(networkIDBinary, 2) + 1))[2:])
     firstHostDotNote = binaryToDotNote(firstHostBinary)
 
+    firstLabel.config(text=firstHostDotNote)
+
     #creating the last host in binary then as dot notation
-    lastHostBinary = str(bin(int(broadcastBinaryString, 2) - 1))[2:]
+    lastHostBinary = fillLeadingZeros(str(bin(int(broadcastBinaryString, 2) - 1))[2:])
     lastHostDotNote = binaryToDotNote(lastHostBinary)
-    
-    
-    print("A: " + addressBinaryString)
-    print("M: " + netMaskBinaryString)
-    print("N: "+ networkIDBinary)
-    print("ND: "+ networkIDDotNote)
-    print("B: " + broadcastBinaryString)
-    print("BD:" + broadcastDotNote)
-    print("F: " + firstHostBinary)
-    print("FD: " + firstHostDotNote)
-    print("L: " + lastHostBinary)
-    print("LD :" + lastHostDotNote)
+
+    lastLabel.config(text=lastHostDotNote)
 
 def generateOctet(segment):
     octet = str(bin(int(segment))[2:])
@@ -78,6 +66,14 @@ def fillZeros(segment):
         addressString = addressString + "0"
     return addressString
 
+def fillLeadingZeros(segment):
+
+    addressString = segment
+
+    while len(addressString) <32:
+        addressString = "0" + addressString
+    return addressString
+
 def fillOnes(segment):
 
     addressString = segment
@@ -89,7 +85,6 @@ def fillOnes(segment):
 def binaryToDotNote(segment):
     address = str(int(segment[0:8],2)) + "." + str(int(segment[8:16],2)) + "." + str(int(segment[16:24],2)) + "." + str(int(segment[24:32],2))
     return address
-    
 
 #object creation
 inputFrame = LabelFrame(rootWindow, text= "IP Address", labelanchor=N,padx=5,pady=5)
