@@ -16,6 +16,12 @@ def calculateSubnet():
     netMaskBinaryString = ""
     networkIDBinary = ""
     networkIDDotNote = ""
+    broadcastBinaryString = ""
+    broadcastDotNote = ""
+    firstHostBinary = ""
+    firstHostDotNote = ""
+    lastHostBinary = ""
+    lastHostDotNote = ""
 
     #grabbint user input and converting it to binary strings
     octOneBinaryString = generateOctet(ipInputOne.get())
@@ -33,11 +39,30 @@ def calculateSubnet():
     #creating the network ID first as a binary string then as a dot notation string
     networkIDBinary = fillZeros(addressBinaryString[0:int(cidrInput.get())])
     networkIDDotNote = binaryToDotNote(networkIDBinary)
+
+    #creating the broadcast ID first as a binary string then as a dot notation string
+    broadcastBinaryString = fillOnes(addressBinaryString[0:int(cidrInput.get())])
+    broadcastDotNote = binaryToDotNote(broadcastBinaryString)
+
+    #creating the first host in binary then as dot notation
+    firstHostBinary = str(bin(int(networkIDBinary, 2) + 1))[2:]
+    firstHostDotNote = binaryToDotNote(firstHostBinary)
+
+    #creating the last host in binary then as dot notation
+    lastHostBinary = str(bin(int(broadcastBinaryString, 2) - 1))[2:]
+    lastHostDotNote = binaryToDotNote(lastHostBinary)
+    
     
     print("A: " + addressBinaryString)
     print("M: " + netMaskBinaryString)
     print("N: "+ networkIDBinary)
     print("ND: "+ networkIDDotNote)
+    print("B: " + broadcastBinaryString)
+    print("BD:" + broadcastDotNote)
+    print("F: " + firstHostBinary)
+    print("FD: " + firstHostDotNote)
+    print("L: " + lastHostBinary)
+    print("LD :" + lastHostDotNote)
 
 def generateOctet(segment):
     octet = str(bin(int(segment))[2:])
@@ -51,6 +76,14 @@ def fillZeros(segment):
 
     while len(addressString) <32:
         addressString = addressString + "0"
+    return addressString
+
+def fillOnes(segment):
+
+    addressString = segment
+
+    while len(addressString) <32:
+        addressString = addressString + "1"
     return addressString
 
 def binaryToDotNote(segment):
