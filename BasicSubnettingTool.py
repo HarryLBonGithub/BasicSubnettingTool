@@ -13,6 +13,16 @@ rootWindow.iconphoto(False, iconInmage)
 #functions
 def calculateSubnet():
 
+    #check if the input is good
+    if entryIsInvalid():
+        messagebox.showerror(title="BAD INPUT", message="Input valid IP Address")
+        ipInputOne.delete(0,END)
+        ipInputTwo.delete(0,END)
+        ipInputThree.delete(0,END)
+        ipInputFour.delete(0,END)
+        cidrInput.delete(0,END)
+        return
+
     #grabbing user input and converting it to binary strings
     octOneBinaryString = generateOctet(ipInputOne.get())
     octTwoBinaryString = generateOctet(ipInputTwo.get())
@@ -85,6 +95,18 @@ def fillOnes(segment):
 def binaryToDotNote(segment):
     address = str(int(segment[0:8],2)) + "." + str(int(segment[8:16],2)) + "." + str(int(segment[16:24],2)) + "." + str(int(segment[24:32],2))
     return address
+
+def entryIsInvalid():
+    if ipInputOne.get().isnumeric() == False or int(ipInputOne.get()) < 0 or int(ipInputOne.get()) > 255:
+        return True
+    if ipInputTwo.get().isnumeric() == False or int(ipInputTwo.get()) < 0 or int(ipInputTwo.get()) > 255:
+        return True
+    if ipInputThree.get().isnumeric() == False or int(ipInputThree.get()) < 0 or int(ipInputThree.get()) > 255:
+        return True
+    if ipInputFour.get().isnumeric() == False or int(ipInputFour.get()) < 0 or int(ipInputFour.get()) > 255:
+        return True
+    if cidrInput.get().isnumeric() == False or int(cidrInput.get()) < 0 or int(cidrInput.get()) > 32:
+        return True
 
 #object creation
 inputFrame = LabelFrame(rootWindow, text= "IP Address", labelanchor=N,padx=5,pady=5)
